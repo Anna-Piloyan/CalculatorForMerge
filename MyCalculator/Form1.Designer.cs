@@ -145,6 +145,8 @@ namespace MyCalculator
             this.textBox1.Size = new System.Drawing.Size(232, 23);
             this.textBox1.TabIndex = 47;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox1.WordWrap = false;
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
             // label2
             // 
