@@ -43,12 +43,8 @@ namespace MyCalculator
                 this.Close();
             }
             if (e.KeyValue == (char)Keys.Enter)
-            {
-                button20.DialogResult = DialogResult.OK;
-                //textBox1.Focus();
-                buttonCalculate_Click(sender, e);             // не рабботает
-                //Analaizer.expression = textBox1.Text;
-                //textBox2.Text = Analaizer.Estimate();
+            {              
+                buttonCalculate_Click(sender, e);             // не рабботает              
             }
 
         }
@@ -156,7 +152,6 @@ namespace MyCalculator
 
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Test");
             if (textBox1.Text.Length == 0)
                 return;          
             try
