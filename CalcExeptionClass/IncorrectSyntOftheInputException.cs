@@ -10,12 +10,22 @@ namespace CalcExeptionClass
     public class IncorrectSyntOftheInputException : Exception
     {
         private static string _lastError = "";
-        public static string lastError { get { return _lastError; } }
+        public static string lastError { get { return _lastError; } set { _lastError = value; } }
         public IncorrectSyntOftheInputException()
         {
             _lastError = "Incorrect syntactic construction of the input expression.";
         }
 
-        public IncorrectSyntOftheInputException(string message) { }
+        public IncorrectSyntOftheInputException(string message)
+        {
+            _lastError = message;
+        }
+        public override string Message
+        {
+            get
+            {
+                return _lastError;
+            }
+        }
     }
 }

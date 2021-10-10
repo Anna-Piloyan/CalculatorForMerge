@@ -16,6 +16,16 @@ namespace CalcExeptionClass
             _lastError = "Incomplete expression.";
         }
 
-        public IncompleteExpresException(string message) { }
+        public IncompleteExpresException(string message)
+        {
+            _lastError = message;
+        }
+        public override string Message
+        {
+            get
+            {
+                return _lastError;
+            }
+        }
     }
 }

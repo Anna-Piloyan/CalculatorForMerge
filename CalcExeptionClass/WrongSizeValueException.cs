@@ -16,6 +16,16 @@ namespace CalcExeptionClass
             _lastError = "Very small or very large number value for int.";
         }
 
-        public WrongSizeValueException(string message) { }
+        public WrongSizeValueException(string message)
+        {
+            _lastError = message;
+        }
+        public override string Message
+        {
+            get
+            {
+                return _lastError;
+            }
+        }
     }
 }

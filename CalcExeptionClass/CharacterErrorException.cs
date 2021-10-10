@@ -16,7 +16,17 @@ namespace CalcExeptionClass
             _lastError = "Incorrect structure in parentheses, character error.";
         }
 
-        public CharacterErrorException(string message) { }
+        public CharacterErrorException(string message)
+        {
+            _lastError = message;
+        }
+        public override string Message
+        {
+            get
+            {
+                return _lastError;
+            }
+        }
 
     }
 }

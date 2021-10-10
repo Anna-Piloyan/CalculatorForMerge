@@ -1,5 +1,6 @@
 ﻿using AnalaizerClass;
 using CalcClass;
+using CalcExeptionClass;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,13 +18,16 @@ namespace MyCalculator
     public partial class Form1 : Form
     {
         long memoryResult = 0;
+        int countTick = 0;
+        bool IsFlag = false;
         public Form1()
         {
             InitializeComponent();
            
-            KeyPreview = true;
-            this.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
-            this.button20.Click += new EventHandler(this.buttonCalculate_Click);
+           // KeyPreview = true;
+           // this.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
+           // this.button20.Click += new EventHandler(this.buttonCalculate_Click);
+           
             //KeyDown += (s, e) =>
             //{
             //    if (e.KeyValue == (char)Keys.Enter)
@@ -38,9 +42,13 @@ namespace MyCalculator
             {
                 this.Close();
             }
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyValue == (char)Keys.Enter)
             {
-                button20.PerformClick();              // не рабботает
+                button20.DialogResult = DialogResult.OK;
+                //textBox1.Focus();
+                buttonCalculate_Click(sender, e);             // не рабботает
+                //Analaizer.expression = textBox1.Text;
+                //textBox2.Text = Analaizer.Estimate();
             }
 
         }
@@ -93,24 +101,24 @@ namespace MyCalculator
         {
             textBox1.Text += button11.Text;
         }
-        private void DoubleOperator()
-        {
-            if (textBox1.Text.EndsWith("+") || textBox1.Text.EndsWith("-") || textBox1.Text.EndsWith("*")
-                       || textBox1.Text.EndsWith("/") || textBox1.Text.EndsWith("%"))
-            {
-                if (textBox1.Text.Length > 0)
-                {
-                    textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
-                }
-            }
+        //private void DoubleOperator()
+        //{
+        //    if (textBox1.Text.EndsWith("+") || textBox1.Text.EndsWith("-") || textBox1.Text.EndsWith("*")
+        //               || textBox1.Text.EndsWith("/") || textBox1.Text.EndsWith("%"))
+        //    {
+        //        if (textBox1.Text.Length > 0)
+        //        {
+        //            textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
+        //        }
+        //    }
 
-        }
+        //}
 
         private void buttonDiv_Click(object sender, EventArgs e)
         {
             if (textBox1.Text.Length == 0)
                 return;
-            DoubleOperator();
+           // DoubleOperator();
             textBox1.Text += buttonDiv.Text;
         }
 
@@ -118,7 +126,7 @@ namespace MyCalculator
         {
             if (textBox1.Text.Length == 0)
                 return;
-            DoubleOperator();
+          //  DoubleOperator();
             textBox1.Text += button14.Text;
         }
 
@@ -126,7 +134,7 @@ namespace MyCalculator
         {
             if (textBox1.Text.Length == 0)
                 return;
-            DoubleOperator();
+          //  DoubleOperator();
             textBox1.Text += button15.Text;
         }
 
@@ -134,7 +142,7 @@ namespace MyCalculator
         {
             if (textBox1.Text.Length == 0)
                 return;
-            DoubleOperator();
+          //  DoubleOperator();
             textBox1.Text += button16.Text;
         }
 
@@ -142,36 +150,54 @@ namespace MyCalculator
         {
             if (textBox1.Text.Length == 0)
                 return;
-            DoubleOperator();
+          //  DoubleOperator();
             textBox1.Text += "%";
-        }
-
-        private void button17_Click(object sender, EventArgs e)
-        {
-            if (textBox1.Text.Length == 0)
-                return;
-        }
-
-        private void button18_Click(object sender, EventArgs e)
-        {
-            if (textBox1.Text.Length == 0)
-                return;
         }
 
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Test");
             if (textBox1.Text.Length == 0)
-                return;
-            //else
-            //{
-            //    textBox1.Text += button20.Text;
-            //}
-          //  try
-          //  {
+                return;          
+            try
+            {
+                if (textBox1.Text.Length > 30)
+                    throw new ExccedsNumberOperatorException();
                 Analaizer.expression = textBox1.Text;
                 textBox2.Text = Analaizer.Estimate();
-          //  }
-          //  catch (Exception ex) { textBox1.Text = ex.Message; }
+            }
+            catch (VeryLongExpressException ex)
+            {
+                textBox2.Text = ex.Message;
+            }
+            catch (ExccedsNumberOperatorException ex)
+            {
+                textBox2.Text = ex.Message;
+            }
+            catch (IncompleteExpresException ex)
+            {
+                textBox2.Text = ex.Message;
+            }
+            catch (IncorrectSyntOftheInputException ex)
+            {
+                textBox2.Text = ex.Message;
+            }
+            catch (TwoOperatorsException ex)
+            {
+                textBox2.Text = ex.Message;
+            }
+            catch (OverflowException ex)
+            {
+                textBox2.Text = ex.Message;
+            }
+            catch (DivideByZeroException ex)
+            {
+                textBox2.Text = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                textBox2.Text = ex.Message;
+            }
 
         }
 
@@ -188,6 +214,7 @@ namespace MyCalculator
             if (textBox2.Text.Length == 0)
                 return;
             memoryResult += Convert.ToInt64(textBox2.Text);
+            textBox1.Text = "";
             textBox2.Text = "";
         }
 
@@ -209,6 +236,8 @@ namespace MyCalculator
         private void buttonC_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
+            textBox2.Text = "";
+            memoryResult = 0;
         }
 
         private void buttonOpenBrackets_Click(object sender, EventArgs e)
@@ -229,10 +258,29 @@ namespace MyCalculator
         {
             if (textBox1.Text.Length == 0)
                 return;
+           // timer1.Start();
             long res = Convert.ToInt64(textBox2.Text);
-            Calc.ABS(res);
+            if(res > 0)
+              textBox2.Text = Calc.IABS(res).ToString();
+            if (res < 0)
+                textBox2.Text = Calc.ABS(res).ToString();
         }
 
-      
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (countTick < 3)
+            {
+                IsFlag = false;
+                countTick++;
+            }
+            else
+            {
+                timer1.Stop();
+                countTick = 0;
+                IsFlag = true;
+            }
+        }
+
+        
     }
 }

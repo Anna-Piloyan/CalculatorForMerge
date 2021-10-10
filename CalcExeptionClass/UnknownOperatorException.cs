@@ -16,6 +16,16 @@ namespace CalcExeptionClass
             _lastError = "Unknown operator on <i> character.";
         }
 
-        public UnknownOperatorException(string message) { }
+        public UnknownOperatorException(string message)
+        {
+            _lastError = message;
+        }
+        public override string Message
+        {
+            get
+            {
+                return _lastError;
+            }
+        }
     }
 }

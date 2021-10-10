@@ -74,7 +74,7 @@ namespace CalcAnalaizerTests
 
             // act
 
-            int actual = Calc.Sub(x, y);
+            int actual = Calc.Mult(x, y);
 
             // asset
 
@@ -105,8 +105,8 @@ namespace CalcAnalaizerTests
         {
             // arrange
 
-            int x = 6;
-            int expected = 7;
+            int x = -6;
+            int expected = 6;
 
             // act
 
@@ -123,7 +123,7 @@ namespace CalcAnalaizerTests
             // arrange
 
             int x = 6;
-            int expected = 5;
+            int expected = -6;
 
             // act
 

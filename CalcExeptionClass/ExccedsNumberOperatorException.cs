@@ -16,6 +16,16 @@ namespace CalcExeptionClass
             _lastError = "The total number of numbers and operators exceeds 30.";
         }
 
-        public ExccedsNumberOperatorException(string message) { }
+        public ExccedsNumberOperatorException(string message)
+        {
+            _lastError = message;
+        }
+        public override string Message
+        {
+            get
+            {
+                return _lastError;
+            }
+        }
     }
 }

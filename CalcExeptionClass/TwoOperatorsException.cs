@@ -16,6 +16,16 @@ namespace CalcExeptionClass
             _lastError = "Two consecutive operators on the <i> character.";
         }
 
-        public TwoOperatorsException(string message) { }
+        public TwoOperatorsException(string message)
+        {
+            _lastError = message;
+        }
+        public override string Message
+        {
+            get
+            {
+                return _lastError;
+            }
+        }
     }
 }

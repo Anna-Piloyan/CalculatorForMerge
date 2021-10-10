@@ -38,9 +38,8 @@ namespace AnalaizerClass
         public static bool CheckCurrency()
         {
             //Error 07 — Дуже довгий вираз. Максмальная довжина — 65536 символів.
-            //if (expression.Length > 65536)
-            //    throw new VeryLongExpressException();
-
+            if (expression.Length > 65536)
+                throw new VeryLongExpressException();
 
             Stack st = new Stack();
 
@@ -55,11 +54,8 @@ namespace AnalaizerClass
             //останній символ
             if (expression[expression.Length - 1] < '0' && expression[expression.Length - 1] != ')')
             {
-                erposition = expression.Length - 1;
-                //Error 05 — Незавершений вираз
-                return false;
-              //  throw new IncompleteExpresException();
-               
+                erposition = expression.Length - 1;             
+                return false;             
             }
 
             //проходимо в циклі по всіх інших символах
@@ -75,22 +71,16 @@ namespace AnalaizerClass
                 {
                     if (expression[i + 1] < '0' && expression[i + 1] != '(')//наступне число не може бути знаком якщо це не відкриваюча дужка
                     {
-                        erposition = i + 1;
-                        //Error 04 at <i> — Два підряд оператори на <i> символі.
-                       
-                       // throw new TwoOperatorsException($"Two consecutive operators on the {erposition} character.");
+                        erposition = i + 1;                    
                         return false;
-                    }
-                   
+                    }                  
                 }
                 if (expression[i] == '(')//після відкриваючой може бути число або мінус або (
                 {
                     if (expression[i + 1] != '-' && expression[i + 1] != '(' && expression[i + 1] <= '0')
                     {
-                        erposition = i + 1;
-                        //Error 03 — Невірна синтаксична конструкція вхідного виразу.                      
-                        return false;
-                      //  throw new IncorrectSyntOftheInputException();
+                        erposition = i + 1;                                      
+                        return false;                    
                     }
                     else
                         st.Push(expression[i]);
@@ -98,25 +88,18 @@ namespace AnalaizerClass
 
                 if (expression[i] == ')' && expression[i + 1] >= '0')
                 {
-                    erposition = i + 1;
-                    // Error 03 — Невірна синтаксична конструкція вхідного виразу.
-                    return false;
-                  //  throw new IncorrectSyntOftheInputException();
-                   
+                    erposition = i + 1;                  
+                    return false;                  
                 }
 
                 if (expression[i] == ')' && st.Count == 0 || expression[i] == ')' && Convert.ToChar(st.Peek()) != '(')
                 {
-                    erposition = i + 1;
-                    //Error 03 — Невірна синтаксична конструкція вхідного виразу.
-                    return false;
-                   // throw new IncorrectSyntOftheInputException();
-                   
+                    erposition = i + 1;                 
+                    return false;                  
                 }
 
                 if (expression[i] == ')' && Convert.ToChar(st.Peek()) == '(')
                     st.Pop();
-
             }
 
             if (expression[expression.Length - 1] == ')' && st.Count != 0)
@@ -144,7 +127,7 @@ namespace AnalaizerClass
 
         static private bool IsOperator(char с)
         {
-            if (("+-/*^()".IndexOf(с) != -1))
+            if (("+-/*^()%".IndexOf(с) != -1))
                 return true;
             return false;
         }
@@ -183,10 +166,6 @@ namespace AnalaizerClass
                     i--;
                 }
             }
-            //Error 08 — Сумарна кількість чисел і операторів перевищує 30
-            if (format.Count(c => c == ' ') > 30)
-                throw new ExccedsNumberOperatorException();
-
             return format;
         }
 
@@ -231,6 +210,7 @@ namespace AnalaizerClass
                 }
                 else
                 {
+                   
                     char op = Convert.ToChar(tmp);
                     if (IsOperator(op))
                     {
@@ -315,6 +295,9 @@ namespace AnalaizerClass
                                 case '/':
                                     result = Calc.Div(b, a);
                                     break;
+                                case '%':
+                                    result = Calc.Mod(b, a);
+                                    break;
                             }
                             temp.Push(result); //Результат вычисления записуємо назад в стек
                         }
@@ -348,67 +331,30 @@ namespace AnalaizerClass
         {
            
             string result = "";
-           // try
-          //  {
-                //Error 07 — Дуже довгий вираз. Максмальная довжина — 65536 символів.
-                if (expression.Length > 65536)
-                    throw new VeryLongExpressException();
-                bool flag = CheckCurrency();
+            if (expression.Length > 65536)
+                throw new VeryLongExpressException();
+            bool flag = CheckCurrency();
 
-                if (flag)
+            if (flag)
+            {
+                ArrayList list = CreateStack();//вхідний стеk
+                result = RunEstimate();
+            }
+            else
+            {
+                char p = expression[erposition];
+                switch (p)
                 {
-                    ArrayList list = CreateStack();//вхідний стеk
-                    result = RunEstimate();
-                }
-                else
-                {
-                    char p = expression[erposition];
-                    switch (p)
-                    {
-                        case '(':
-                            throw new IncorrectSyntOftheInputException();
+                    case '(':
+                        throw new IncorrectSyntOftheInputException();
 
-                        case ')':
-                            throw new IncorrectSyntOftheInputException();
+                    case ')':
+                        throw new IncorrectSyntOftheInputException();
 
-                        default:
-                            throw new TwoOperatorsException($"Two consecutive operators on the {erposition} character.");
-                    }
+                    default:
+                        throw new TwoOperatorsException($"Two consecutive operators on the {erposition} character.");
                 }
-               
-            //}
-            //catch (VeryLongExpressException ex)
-            //{
-            //    throw ex;
-            //}
-            //catch (ExccedsNumberOperatorException ex)
-            //{
-            //    throw ex;
-            //}
-            //catch (IncompleteExpresException ex)
-            //{
-            //    throw ex;
-            //}
-            //catch (IncorrectSyntOftheInputException ex)
-            //{
-            //    throw ex;
-            //}
-            //catch (TwoOperatorsException ex)
-            //{
-            //    throw ex;
-            //}
-            //catch (OverflowException ex)
-            //{
-            //    throw ex;
-            //}
-            //catch (DivideByZeroException ex)
-            //{
-            //    throw ex;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
+            }
             return result;
         }
     }

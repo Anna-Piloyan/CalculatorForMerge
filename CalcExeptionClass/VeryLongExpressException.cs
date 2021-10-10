@@ -10,12 +10,15 @@ namespace CalcExeptionClass
     public class VeryLongExpressException : Exception
     {
         private static string _lastError = "";
-        public static string lastError { get { return _lastError; } }
+        public static string lastError { get { return _lastError; } set { _lastError = value; } }
         public VeryLongExpressException()
         {
             _lastError = "A very long expression. The maximum length is 65,536 characters.";
         }
 
-        public VeryLongExpressException(string message) { }
+        public VeryLongExpressException(string message)
+        {
+            _lastError = message;
+        }
     }
 }
