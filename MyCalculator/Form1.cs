@@ -21,11 +21,10 @@ namespace MyCalculator
         long memoryResult = 0;
         int countTick = 0;
         bool IsFlag = false;
-        private bool nonNumberEntered = false;
         public Form1()
         {
             InitializeComponent();
-           // Task.Factory.StartNew(Console);
+           // Task.Factory.StartNew(Console);   // ще один вариант відкривання з консолі
         }
 
         //private void Console()
@@ -126,24 +125,11 @@ namespace MyCalculator
             textBox1.Text += button11.Text;
             textBox1.Focus();
         }
-        //private void DoubleOperator()
-        //{
-        //    if (textBox1.Text.EndsWith("+") || textBox1.Text.EndsWith("-") || textBox1.Text.EndsWith("*")
-        //               || textBox1.Text.EndsWith("/") || textBox1.Text.EndsWith("%"))
-        //    {
-        //        if (textBox1.Text.Length > 0)
-        //        {
-        //            textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
-        //        }
-        //    }
-
-        //}
 
         private void buttonDiv_Click(object sender, EventArgs e)
         {
             if (textBox1.Text.Length == 0)
-                return;
-           // DoubleOperator();
+                return;         
             textBox1.Text += buttonDiv.Text;
             textBox1.Focus();
         }
@@ -151,8 +137,7 @@ namespace MyCalculator
         private void button14_Click(object sender, EventArgs e)
         {
             if (textBox1.Text.Length == 0)
-                return;
-          //  DoubleOperator();
+                return;        
             textBox1.Text += button14.Text;
             textBox1.Focus();
         }
@@ -160,8 +145,7 @@ namespace MyCalculator
         private void button15_Click(object sender, EventArgs e)
         {
             if (textBox1.Text.Length == 0)
-                return;
-          //  DoubleOperator();
+                return;         
             textBox1.Text += button15.Text;
             textBox1.Focus();
         }
@@ -169,8 +153,7 @@ namespace MyCalculator
         private void button16_Click(object sender, EventArgs e)
         {
             if (textBox1.Text.Length == 0)
-                return;
-          //  DoubleOperator();
+                return;       
             textBox1.Text += button16.Text;
             textBox1.Focus();
         }
@@ -179,7 +162,6 @@ namespace MyCalculator
         {
             if (textBox1.Text.Length == 0)
                 return;
-          //  DoubleOperator();
             textBox1.Text += "%";
             textBox1.Focus();
         }
@@ -301,17 +283,17 @@ namespace MyCalculator
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //if (countTick < 3)
-            //{
-            //    IsFlag = false;
-            //    countTick++;
-            //}
-            //else
-            //{
-            //    timer1.Stop();
-            //    countTick = 0;
-            //    IsFlag = true;
-            //}
+            if (countTick < 3)
+            {
+                IsFlag = false;
+                countTick++;
+            }
+            else
+            {
+                timer1.Stop();
+                countTick = 0;
+                IsFlag = true;
+            }
         }
 
        
