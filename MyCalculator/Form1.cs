@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,18 +24,40 @@ namespace MyCalculator
         public Form1()
         {
             InitializeComponent();
-           
-           // KeyPreview = true;
-           // this.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
-           // this.button20.Click += new EventHandler(this.buttonCalculate_Click);
-           
-            //KeyDown += (s, e) =>
-            //{
-            //    if (e.KeyValue == (char)Keys.Enter)
-            //        buttonCalculate_Click(button20, null);
-            //};
 
+           //Task.Factory.StartNew(Console);
         }
+        //private void Console()
+        //{
+        //    // Запускаем консоль.
+        //    if (AllocConsole())
+        //    {
+        //        System.Console.WriteLine("Для выхода наберите exit.");
+        //        while (true)
+        //        {
+        //            // Считываем данные.
+        //            string output = System.Console.ReadLine();
+        //            if (output == "exit")
+        //                break;
+        //            // Выводим данные в textBox
+        //            Action action = () => textBox1.Text += output + Environment.NewLine;
+        //            if (InvokeRequired)
+        //                Invoke(action);
+        //            else
+        //                action();
+        //        }
+        //        // Закрываем консоль.
+        //        FreeConsole();
+        //    }
+        //}
+
+        //[DllImport("kernel32.dll", SetLastError = true)]
+        //[return: MarshalAs(UnmanagedType.Bool)]
+        //private static extern bool AllocConsole();
+
+        //[DllImport("kernel32.dll", SetLastError = true)]
+        //[return: MarshalAs(UnmanagedType.Bool)]
+        //private static extern bool FreeConsole();
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -42,10 +65,10 @@ namespace MyCalculator
             {
                 this.Close();
             }
-            if (e.KeyValue == (char)Keys.Enter)
-            {              
-                buttonCalculate_Click(sender, e);             // не рабботает              
-            }
+            //if (e.KeyValue == (char)Keys.Enter)
+            //{              
+            //    buttonCalculate_Click(sender, e);             // не рабботает              
+            //}
 
         }
         private void button1_Click(object sender, EventArgs e)
@@ -263,17 +286,17 @@ namespace MyCalculator
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (countTick < 3)
-            {
-                IsFlag = false;
-                countTick++;
-            }
-            else
-            {
-                timer1.Stop();
-                countTick = 0;
-                IsFlag = true;
-            }
+            //if (countTick < 3)
+            //{
+            //    IsFlag = false;
+            //    countTick++;
+            //}
+            //else
+            //{
+            //    timer1.Stop();
+            //    countTick = 0;
+            //    IsFlag = true;
+            //}
         }
 
         
